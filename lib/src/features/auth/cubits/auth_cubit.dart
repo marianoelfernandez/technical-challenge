@@ -42,7 +42,11 @@ class AuthCubit extends Cubit<AuthState> {
     emit(state.toLoading());
     final result = await authService.signOut();
     final nextState = result.match(
-      (_) => state.copyWith(currentUser: const None()),
+      (_) => state.copyWith(
+        isLoading: false,
+        error: const None(),
+        currentUser: const None(),
+      ),
       (error) => state.toError(error),
     );
     emit(nextState);

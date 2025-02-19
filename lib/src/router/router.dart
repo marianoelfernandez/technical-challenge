@@ -4,6 +4,9 @@ import "dart:async";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:faithwave_app/src/router/screen_params.dart";
+import "package:faithwave_app/src/features/auth/screens/sign_in_screen.dart";
+import "package:faithwave_app/src/features/auth/screens/sign_up_screen.dart";
+import "package:faithwave_app/src/features/todo/screens/todo_screen.dart";
 
 /// All the routes in the app are defined here
 ///
@@ -20,6 +23,14 @@ import "package:faithwave_app/src/router/screen_params.dart";
 enum AppRoute<ParamsType extends ScreenParams<ParamsType>> {
   initial<NoParams>(
     path: "/",
+    isAuthEnforcementRequired: false,
+  ),
+  signIn<NoParams>(
+    path: "/sign-in",
+    isAuthEnforcementRequired: false,
+  ),
+  signUp<NoParams>(
+    path: "/sign-up",
     isAuthEnforcementRequired: false,
   ),
   home<NoParams>(
@@ -58,29 +69,49 @@ final router = buildRouter();
 
 GoRouter buildRouter({
   String initialLocation = "/",
-}) =>
-    GoRouter(
-      debugLogDiagnostics: true,
-      initialLocation: initialLocation,
-      routes: [
-        ShellRoute(
-          builder: _wrapWithAuthEnforcer,
-          routes: [
-            // Example route:
-            // GoRoute(
-            //   name: AppRoute.initial.name,
-            //   path: AppRoute.initial.path,
-            //   builder: (context, state) => const SplashScreen(),
-            // ),
-            GoRoute(
-              name: AppRoute.initial.name,
-              path: AppRoute.initial.path,
-              builder: (context, state) => const Center(child: Text("Hello")),
-            ),
-          ],
+}) {
+  return GoRouter(
+    initialLocation: initialLocation,
+    routes: [
+      GoRoute(
+        path: AppRoute.initial.path,
+        name: AppRoute.initial.name,
+        builder: (context, state) => _wrapWithAuthEnforcer(
+          context,
+          state,
+          const SignInScreen(),
         ),
-      ],
-    );
+      ),
+      GoRoute(
+        path: AppRoute.signIn.path,
+        name: AppRoute.signIn.name,
+        builder: (context, state) => _wrapWithAuthEnforcer(
+          context,
+          state,
+          const SignInScreen(),
+        ),
+      ),
+      GoRoute(
+        path: AppRoute.signUp.path,
+        name: AppRoute.signUp.name,
+        builder: (context, state) => _wrapWithAuthEnforcer(
+          context,
+          state,
+          const SignUpScreen(),
+        ),
+      ),
+      GoRoute(
+        path: AppRoute.home.path,
+        name: AppRoute.home.name,
+        builder: (context, state) => _wrapWithAuthEnforcer(
+          context,
+          state,
+          const TodoScreen(),
+        ),
+      ),
+    ],
+  );
+}
 
 /// Extension to navigate to a named route with typed query parameters
 /// It will infer the type of the query parameters from the type of the route enum

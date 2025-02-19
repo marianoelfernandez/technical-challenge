@@ -2,6 +2,7 @@
 
 import "dart:async";
 
+import "package:faithwave_app/src/adapters/persistence/service_provider.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:faithwave_app/src/app.dart";
@@ -13,6 +14,7 @@ void main() async {
     () async {
       WidgetsFlutterBinding.ensureInitialized();
       await AppEnv.I.load(locale: AppEnvLocale.us);
+      await PersistenceServiceProvider.register();
       await SystemChrome.setPreferredOrientations(
         [
           DeviceOrientation.portraitUp,

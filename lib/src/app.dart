@@ -1,4 +1,5 @@
 import "package:faithwave_app/src/features/auth/cubits/auth_cubit.dart";
+import "package:faithwave_app/src/features/todo/cubits/todo_cubit.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_easyloading/flutter_easyloading.dart";
@@ -49,7 +50,12 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => AuthCubit()),
+        BlocProvider(
+          create: (context) => AuthCubit(),
+        ),
+        BlocProvider(
+          create: (context) => TodoCubit(context.read<AuthCubit>()),
+        ),
       ],
       child: MaterialApp.router(
         restorationScopeId: AppEnv.I.flavor.id,
