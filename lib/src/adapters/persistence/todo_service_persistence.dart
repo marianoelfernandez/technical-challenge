@@ -34,7 +34,9 @@ class TodoServicePersistence implements TodoService {
 
       todos.add(todo);
       await _prefs.setString(
-          _todosKey, jsonEncode(todos.map((t) => t.toJson()).toList()));
+        _todosKey,
+        jsonEncode(todos.map((t) => t.toJson()).toList()),
+      );
 
       return Ok(todo);
     } catch (e) {
@@ -55,7 +57,9 @@ class TodoServicePersistence implements TodoService {
 
       todos.removeWhere((todo) => todo.id == id && todo.userId == userId);
       await _prefs.setString(
-          _todosKey, jsonEncode(todos.map((t) => t.toJson()).toList()));
+        _todosKey,
+        jsonEncode(todos.map((t) => t.toJson()).toList()),
+      );
 
       return const Ok(null);
     } catch (e) {
@@ -107,7 +111,9 @@ class TodoServicePersistence implements TodoService {
       todos[todoIndex] = updatedTodo;
 
       await _prefs.setString(
-          _todosKey, jsonEncode(todos.map((t) => t.toJson()).toList()));
+        _todosKey,
+        jsonEncode(todos.map((t) => t.toJson()).toList()),
+      );
 
       return Ok(updatedTodo);
     } catch (e) {

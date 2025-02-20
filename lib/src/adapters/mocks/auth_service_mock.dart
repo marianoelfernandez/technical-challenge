@@ -1,7 +1,6 @@
 import "package:faithwave_app/src/features/auth/services/auth_service.dart";
 import "package:faithwave_app/src/models/errors/auth_error.dart";
 import "package:faithwave_app/src/models/user.dart";
-import "package:flutter/material.dart";
 import "package:oxidized/oxidized.dart";
 
 class AuthServiceMock implements AuthService {
@@ -55,8 +54,8 @@ class AuthServiceMock implements AuthService {
       _passwords[email] = password;
 
       return Ok(user);
-    } catch (ex) 
+    } catch (ex) {
       return Err(AuthErrorUnknown());
-    
+    }
   }
 }
