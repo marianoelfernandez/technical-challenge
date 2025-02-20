@@ -34,11 +34,11 @@ class TodoServicePersistence implements TodoService {
       }
 
       todos.add(todo);
-      await _prefs.setString(_todosKey, jsonEncode(todos.map((t) => t.toJson()).toList()));
+      await _prefs.setString(
+          _todosKey, jsonEncode(todos.map((t) => t.toJson()).toList()));
 
       return Ok(todo);
     } catch (e) {
-      debugPrint("TodoServicePersistence.createTodo: $e");
       return Err(Exception("Failed to create todo"));
     }
   }
@@ -55,11 +55,11 @@ class TodoServicePersistence implements TodoService {
       final todos = jsonList.map((json) => Todo.fromJson(json)).toList();
 
       todos.removeWhere((todo) => todo.id == id && todo.userId == userId);
-      await _prefs.setString(_todosKey, jsonEncode(todos.map((t) => t.toJson()).toList()));
+      await _prefs.setString(
+          _todosKey, jsonEncode(todos.map((t) => t.toJson()).toList()));
 
       return const Ok(null);
     } catch (e) {
-      debugPrint("TodoServicePersistence.deleteTodo: $e");
       return Err(Exception("Failed to delete todo"));
     }
   }
@@ -78,12 +78,10 @@ class TodoServicePersistence implements TodoService {
           .where((todo) => todo.userId == userId)
           .toList();
 
-      // Sort by creation date, newest first
       todos.sort((a, b) => b.createdAt.compareTo(a.createdAt));
 
       return Ok(todos);
     } catch (e) {
-      debugPrint("TodoServicePersistence.getTodos: $e");
       return Err(Exception("Failed to get todos"));
     }
   }
@@ -99,7 +97,8 @@ class TodoServicePersistence implements TodoService {
       final List<dynamic> jsonList = jsonDecode(todosJson);
       final todos = jsonList.map((json) => Todo.fromJson(json)).toList();
 
-      final todoIndex = todos.indexWhere((t) => t.id == id && t.userId == userId);
+      final todoIndex =
+          todos.indexWhere((t) => t.id == id && t.userId == userId);
       if (todoIndex == -1) {
         return Err(Exception("Todo not found"));
       }
@@ -108,11 +107,11 @@ class TodoServicePersistence implements TodoService {
       final updatedTodo = todo.copyWith(isDone: !todo.isDone);
       todos[todoIndex] = updatedTodo;
 
-      await _prefs.setString(_todosKey, jsonEncode(todos.map((t) => t.toJson()).toList()));
+      await _prefs.setString(
+          _todosKey, jsonEncode(todos.map((t) => t.toJson()).toList()));
 
       return Ok(updatedTodo);
     } catch (e) {
-      debugPrint("TodoServicePersistence.toggleTodo: $e");
       return Err(Exception("Failed to toggle todo"));
     }
   }

@@ -3,14 +3,13 @@ import "dart:convert";
 import "package:faithwave_app/src/features/auth/services/auth_service.dart";
 import "package:faithwave_app/src/models/errors/auth_error.dart";
 import "package:faithwave_app/src/models/user.dart";
-import "package:flutter/material.dart";
 import "package:oxidized/oxidized.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
 class AuthServicePersistence implements AuthService {
   static const String _userKey = "current_user";
   static const String _credentialsKey = "user_credentials";
-  
+
   final SharedPreferences _prefs;
 
   AuthServicePersistence(this._prefs);
@@ -30,8 +29,7 @@ class AuthServicePersistence implements AuthService {
         jsonDecode(credentialsJson),
       );
 
-      if (!credentials.containsKey(email) || 
-          credentials[email] != password) {
+      if (!credentials.containsKey(email) || credentials[email] != password) {
         return Err(AuthErrorInvalidCredentials());
       }
 
@@ -49,10 +47,9 @@ class AuthServicePersistence implements AuthService {
       }
 
       final user = User.fromJson(users[email]);
-      
+
       return Ok(user);
     } catch (ex) {
-      debugPrint("AuthServicePersistence.signIn: $ex");
       return Err(AuthErrorUnknown());
     }
   }
@@ -63,7 +60,6 @@ class AuthServicePersistence implements AuthService {
       await _prefs.remove(_userKey);
       return const Ok(null);
     } catch (ex) {
-      debugPrint("AuthServicePersistence.signOut: $ex");
       return Err(AuthErrorUnknown());
     }
   }
@@ -112,7 +108,6 @@ class AuthServicePersistence implements AuthService {
 
       return Ok(user);
     } catch (ex) {
-      debugPrint("AuthServicePersistence.signUp: $ex");
       return Err(AuthErrorUnknown());
     }
   }

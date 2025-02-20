@@ -26,7 +26,6 @@ class AuthServiceMock implements AuthService {
 
       return Ok(user);
     } catch (ex) {
-      debugPrint("AuthServiceMock.signIn: $ex");
       return Err(AuthErrorUnknown());
     }
   }
@@ -36,7 +35,6 @@ class AuthServiceMock implements AuthService {
     try {
       return const Ok(null);
     } catch (ex) {
-      debugPrint("AuthServiceMock.signOut: $ex");
       return Err(AuthErrorUnknown());
     }
   }
@@ -57,9 +55,8 @@ class AuthServiceMock implements AuthService {
       _passwords[email] = password;
 
       return Ok(user);
-    } catch (ex) {
-      debugPrint("AuthServiceMock.signUp: $ex");
+    } catch (ex) 
       return Err(AuthErrorUnknown());
-    }
+    
   }
 }
